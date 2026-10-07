@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CryptoLab — PSDKU Informatika</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="shell">
+<header class="topbar">
+  <div class="brand"><div class="logo">C</div><div><b>CryptoLab</b><span>Kriptosystem Sederhana • PSDKU Informatika</span></div></div>
+  <div class="badge">7 CIPHER</div>
+</header>
+
+<section class="hero">
+  <div>
+    <p class="eyebrow">IMPLEMENTASI KRIPTOGRAFI 2026</p>
+    <h1>Eksperimen cipher dalam<br><em>satu antarmuka.</em></h1>
+    <p class="lead">Enkripsi & dekripsi pesan teks maupun file dengan tujuh algoritma sesuai spesifikasi tugas.</p>
+  </div>
+  <div class="hero-card"><span>26</span><small>alphabet mode</small><hr><span>256</span><small>byte file mode</small></div>
+</section>
+
+<main class="workspace">
+  <aside class="panel sidebar">
+    <label class="section-title">Pilih Cipher</label>
+    <div class="cipher-list">
+      {% for id,name,desc in [
+      ('shift','Shift Cipher','Pergeseran alfabet'),
+      ('substitution','Substitution','Pemetaan 26 huruf'),
+      ('affine','Affine Cipher','Transformasi linear'),
+      ('vigenere','Vigenere Cipher','Kunci berulang'),
+      ('hill','Hill Cipher','Matriks aljabar'),
+      ('permutation','Permutation','Penyusunan blok'),
+      ('otp','One-time Pad','Kunci acak sekali pakai')] %}
+      <button class="cipher {{ 'active' if id=='shift' else '' }}" data-cipher="{{id}}">
+        <strong>{{loop.index}}</strong><span>{{name}}<small>{{desc}}</small></span><i>›</i>
+      </button>
+      {% endfor %}
+    </div>
+  </aside>
+
+  <section class="panel mainpanel">
+    <div class="toolbar">
+      <div><label>INPUT TYPE</label><div class="seg"><button class="mode active" data-mode="text">Text</button><button class="mode" data-mode="file">File</button></div></div>
+      <div class="actions"><button id="encrypt" class="primary">🔒 Enkripsi</button><button id="decrypt" class="secondary">🔓 Dekripsi</button></div>
+    </div>
+
+    <div class="formgrid">
+      <div class="field"><label>KUNCI <span id="keyhint"></span></label><input id="key" placeholder="Contoh: 3"><div id="helper" class="helper"></div></div>
+      <div class="field filefield" id="filebox" hidden><label>FILE</label><input id="file" type="file"><div class="helper">Semua byte file diproses untuk mode file.</div></div>
+    </div>
+
+    <div class="field textfield"><label>PESAN / PLAINTEKS</label><textarea id="text" placeholder="Ketik pesan yang ingin dienkripsi..."></textarea></div>
+    <div class="otp-tools" id="otp-tools" hidden><button id="genotp" class="ghost">Generate OTP 10.000 huruf</button><button id="gensub" class="ghost">Generate substitution byte key</button></div>
+
+    <div class="result-head"><label>HASIL / CIPHERTEKS</label><div><button id="copy" class="mini">Copy</button><button id="download" class="mini">Simpan File</button></div></div>
+    <textarea id="result" class="result" readonly placeholder="Hasil akan tampil di sini..."></textarea>
+    <div class="result-meta"><span id="status">Siap digunakan</span><span id="count">0 karakter</span></div>
+  </section>
+
+  <aside class="panel info">
+    <div class="info-icon">i</div>
+    <h3 id="info-title">Shift Cipher</h3>
+    <p id="info-desc">Setiap huruf digeser sejumlah posisi pada alfabet 26 huruf.</p>
+    <div class="formula" id="formula">C = (P + k) mod 26</div>
+    <h4>Catatan tugas</h4>
+    <ul>
+      <li>Plainteks dan cipherteks dapat ditampilkan di layar.</li>
+      <li>Cipherteks dapat dilihat tanpa spasi atau kelompok 5 huruf.</li>
+      <li>Kunci dimasukkan oleh pengguna.</li>
+      <li>File dapat dienkripsi dan didekripsi kembali.</li>
+    </ul>
+  </aside>
+</main>
+<footer>CryptoLab • dibuat untuk implementasi tugas Kriptography PSDKU 2026–2027</footer>
+</div>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body></html>
